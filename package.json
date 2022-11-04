@@ -11,7 +11,6 @@
     "@types/node": "^16.7.13",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
-    "graphql": "^16.6.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
@@ -19,6 +18,8 @@
     "web-vitals": "^2.1.0"
   },
   "scripts": {
+    "gen:types": "apollo client:codegen --target typescript --includes **/*.graphql.ts --excludes **/__generated__",
+    "prestart": "yarn gen:types",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -43,6 +44,7 @@
     ]
   },
   "devDependencies": {
+    "apollo": "^2.34.0",
     "autoprefixer": "^10.4.13",
     "postcss": "^8.4.18",
     "tailwindcss": "^3.2.1"
