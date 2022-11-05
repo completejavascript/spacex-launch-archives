@@ -1,11 +1,11 @@
 import { useQuery } from "@apollo/client";
 
 // graphql queries
-import { QUERY_LAUNCH_LIST } from "../../graphql/queries.graphql";
-import { GetLaunchList } from "../../graphql/__generated__/GetLaunchList";
+import { QUERY_LAUNCH_LIST } from "./queries";
+import { GetLaunchListQuery, GetLaunchListQueryVariables } from "../../gql/graphql";
 
 export default function LaunchList() {
-  const { data, loading } = useQuery<GetLaunchList>(QUERY_LAUNCH_LIST);
+  const { data, loading } = useQuery<GetLaunchListQuery, GetLaunchListQueryVariables>(QUERY_LAUNCH_LIST);
 
   return (
     <div className="h-full relative overflow-y-scroll px-8 pb-8">
