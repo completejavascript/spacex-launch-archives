@@ -98,7 +98,7 @@ export default function LaunchList({
   }
 
   return (
-    <div className="h-full relative overflow-y-scroll px-8">
+    <div className="h-full relative overflow-y-auto px-8">
       <div className="sticky top-0">
         <div className="h-8 bg-slate-900" />
         <div className="bg-slate-900 relative pointer-events-auto w-full">

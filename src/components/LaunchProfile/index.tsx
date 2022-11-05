@@ -7,6 +7,9 @@ import {
   LaunchProfileQueryVariables,
 } from "../../gql/graphql";
 
+// sections
+import SkeletonProfile from "./SkeletonProfile";
+
 // ----------------------------------------------------------------------------
 
 interface LaunchProfileProps {
@@ -30,21 +33,51 @@ export default function LaunchProfile({
   });
 
   if (loading || !hasLaunches) {
-    return <>Loading...</>;
+    return <SkeletonProfile />;
   }
 
   if (!data) {
-    return <>No data!</>;
+    return (
+      <div className="h-full w-full relative overflow-y-auto p-8">No data!</div>
+    );
   }
 
   return (
-    <div className="h-full relative overflow-y-scroll p-8">
-      <div>
+    <div className="h-full w-full relative overflow-y-auto p-8">
+      <div className="mb-2">
         <span className="text-slate-200 font-semibold">
-          Flight number: {data.launch?.flight_number}
+          Flight {data.launch?.flight_number}
         </span>
+        {": "}
+        {data.launch?.launch_success ? (
+          <span className="text-lime-400">Success</span>
+        ) : (
+          <span className="text-rose-500">Failed</span>
+        )}
       </div>
-      <div>{JSON.stringify(data)}</div>
+
+      <h1 className="text-slate-100 font-bold text-2xl mb-6">
+        {data.launch?.mission_name}
+        {data.launch?.rocket &&
+          ` (${data.launch.rocket.rocket_name} | ${data.launch.rocket.rocket_type})`}
+      </h1>
+
+      <p className="mb-6">{data.launch?.details}</p>
+
+      {data.launch?.links?.flickr_images && (
+        <div className="grid grid-cols-2 gap-4">
+          {data.launch.links.flickr_images.map((image, i) =>
+            image ? (
+              <img
+                src={image}
+                className="w-full"
+                key={image}
+                alt={`${data.launch?.mission_name} ${i}`}
+              />
+            ) : null
+          )}
+        </div>
+      )}
     </div>
   );
 }
