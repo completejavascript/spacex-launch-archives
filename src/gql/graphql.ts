@@ -738,7 +738,7 @@ export type TrunkCargo = {
 export type GetLaunchListQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetLaunchListQuery = { __typename?: 'Query', launches?: Array<{ __typename?: 'Launch', flight_number?: number | null, mission_name?: string | null, launch_year?: number | null } | null> | null };
+export type GetLaunchListQuery = { __typename?: 'Query', launches?: Array<{ __typename?: 'Launch', flight_number?: number | null, mission_name?: string | null, launch_year?: number | null, launch_date_unix?: number | null } | null> | null };
 
 
-export const GetLaunchListDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetLaunchList"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"launches"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"flight_number"}},{"kind":"Field","name":{"kind":"Name","value":"mission_name"}},{"kind":"Field","name":{"kind":"Name","value":"launch_year"}}]}}]}}]} as unknown as DocumentNode<GetLaunchListQuery, GetLaunchListQueryVariables>;
+export const GetLaunchListDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetLaunchList"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"launches"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"flight_number"}},{"kind":"Field","name":{"kind":"Name","value":"mission_name"}},{"kind":"Field","name":{"kind":"Name","value":"launch_year"}},{"kind":"Field","name":{"kind":"Name","value":"launch_date_unix"}}]}}]}}]} as unknown as DocumentNode<GetLaunchListQuery, GetLaunchListQueryVariables>;

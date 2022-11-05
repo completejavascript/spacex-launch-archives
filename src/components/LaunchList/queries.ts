@@ -6,6 +6,7 @@ export const QUERY_LAUNCH_LIST = gql`
       flight_number
       mission_name
       launch_year
+      launch_date_unix
     }
   }
 `;
