@@ -38,8 +38,12 @@ export default function LaunchProfile({
   }
 
   return (
-    <div>
-      <div>{launchId}</div>
+    <div className="h-full relative overflow-y-scroll p-8">
+      <div>
+        <span className="text-slate-200 font-semibold">
+          Flight number: {data.launch?.flight_number}
+        </span>
+      </div>
       <div>{JSON.stringify(data)}</div>
     </div>
   );

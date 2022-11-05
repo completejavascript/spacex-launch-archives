@@ -26,11 +26,13 @@ type ArrayLaunchByYear = Array<[string, Array<LaunchItem | null>]>;
 // ----------------------------------------------------------------------------
 
 export interface LaunchListProps {
+  launchId: number | null;
   onLaunchSelected?: (id: number) => void;
   onHasLaunches?: () => void;
 }
 
 export default function LaunchList({
+  launchId,
   onLaunchSelected,
   onHasLaunches,
 }: LaunchListProps) {
@@ -129,13 +131,19 @@ export default function LaunchList({
                 <ul className="space-y-2 border-l border-slate-800">
                   {listLaunch.map((launch) => {
                     if (!launch?.flight_number) return null;
+
+                    const className =
+                      launchId === launch?.flight_number
+                        ? "text-sky-400 hover:text-sky-400 border-sky-500 font-semibold"
+                        : "text-slate-400 hover:text-slate-300 hover:border-slate-500";
+
                     return (
                       <li
                         key={launch?.flight_number}
                         onClick={() =>
                           onLaunchSelected?.(launch?.flight_number!)
                         }
-                        className="border-l pl-4 border-transparent text-sm hover:border-slate-500 text-slate-400 hover:text-slate-300 hover:cursor-pointer"
+                        className={`border-l pl-4 border-transparent text-sm cursor-pointer ${className}`}
                       >
                         {launch?.mission_name}
                       </li>

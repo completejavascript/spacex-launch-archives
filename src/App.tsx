@@ -17,6 +17,7 @@ export default function App() {
       <div className="h-full flex absolute top-0 pt-16">
         <div className="w-80 border-r border-slate-300/10">
           <LaunchList
+            launchId={launchId}
             onLaunchSelected={setLaunchId}
             onHasLaunches={onHasLaunches}
           />
