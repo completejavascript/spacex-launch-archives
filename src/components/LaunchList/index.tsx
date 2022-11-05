@@ -35,6 +35,11 @@ export default function LaunchList() {
         return accum;
       }
 
+      // WORKAROUND - avoid duplicate flight_number
+      if (launch?.mission_name === "SXM-7") {
+        return accum;
+      }
+
       const key = launch.launch_year;
       accum[key] = accum[key] || [];
       accum[key] = accum[key].concat(launch);
@@ -72,7 +77,7 @@ export default function LaunchList() {
                   {listLaunch.map((launch) => {
                     return (
                       <li
-                        key={`launch-${launch?.flight_number}-${launch?.launch_date_unix}`}
+                        key={launch?.flight_number}
                         className="border-l pl-4 border-transparent text-sm hover:border-slate-500 text-slate-400 hover:text-slate-300 hover:cursor-pointer"
                       >
                         {launch?.mission_name}
