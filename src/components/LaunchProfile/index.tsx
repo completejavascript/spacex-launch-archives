@@ -65,12 +65,12 @@ export default function LaunchProfile({
       <p className="mb-6">{data.launch?.details}</p>
 
       {data.launch?.links?.flickr_images && (
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
           {data.launch.links.flickr_images.map((image, i) =>
             image ? (
               <img
                 src={image}
-                className="w-full"
+                className="w-full rounded-md"
                 key={image}
                 alt={`${data.launch?.mission_name} ${i}`}
               />
