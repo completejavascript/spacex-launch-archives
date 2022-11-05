@@ -6,7 +6,7 @@ import {
   GetLaunchListQuery,
   GetLaunchListQueryVariables,
 } from "../../gql/graphql";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 
 type LaunchItem = {
   flight_number?: number | null;
@@ -27,6 +27,8 @@ export default function LaunchList() {
     GetLaunchListQueryVariables
   >(QUERY_LAUNCH_LIST);
 
+  const [search, setSearch] = useState("");
+
   const launchesByYear = useMemo((): ArrayLaunchByYear => {
     if (!data?.launches || loading) return [];
 
@@ -40,6 +42,14 @@ export default function LaunchList() {
         return accum;
       }
 
+      // Implement search
+      if (
+        search &&
+        !launch?.mission_name?.toLowerCase().includes(search.toLowerCase())
+      ) {
+        return accum;
+      }
+
       const key = launch.launch_year;
       accum[key] = accum[key] || [];
       accum[key] = accum[key].concat(launch);
@@ -48,7 +58,7 @@ export default function LaunchList() {
     }, {});
 
     return Object.entries(mapByYear);
-  }, [data, loading]);
+  }, [data, loading, search]);
 
   if (loading) {
     return (
@@ -65,10 +75,10 @@ export default function LaunchList() {
           <div className="mt-5">
             <div className="bg-slate-700 h-4 rounded-sm mb-4" />
             <div className="space-y-2">
-              <div className="border-l border-slate-800">
+              <div className="border-l border-slate-700">
                 <div className="h-3 bg-slate-700 ml-4 rounded-sm" />
               </div>
-              <div className="border-l border-slate-800">
+              <div className="border-l border-slate-700">
                 <div className="h-3 bg-slate-700 ml-4 rounded-sm" />
               </div>
             </div>
@@ -84,9 +94,19 @@ export default function LaunchList() {
         <div className="h-8 bg-slate-900" />
         <div className="bg-slate-900 relative pointer-events-auto w-full">
           <input
-            className="w-full rounded-md py-2 px-3 bg-slate-800 hover:bg-slate-700 focus:outline outline-1 outline-slate-300"
-            placeholder="Search"
+            className="w-full rounded-md py-2 pl-3 pr-6 bg-slate-800 hover:bg-slate-700 focus:outline outline-1 outline-slate-300"
+            placeholder="Search name..."
+            value={search}
+            onChange={(event) => setSearch(event.target.value)}
           />
+          {search && (
+            <span
+              className="absolute right-1 top-1 cursor-pointer px-2 text-xl"
+              onClick={() => setSearch("")}
+            >
+              &times;
+            </span>
+          )}
         </div>
         <div className="h-8 bg-gradient-to-b from-slate-900" />
       </div>
