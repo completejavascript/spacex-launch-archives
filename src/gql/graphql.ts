@@ -735,10 +735,18 @@ export type TrunkCargo = {
   unpressurized_cargo?: Maybe<Scalars['Boolean']>;
 };
 
-export type GetLaunchListQueryVariables = Exact<{ [key: string]: never; }>;
+export type LaunchListQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetLaunchListQuery = { __typename?: 'Query', launches?: Array<{ __typename?: 'Launch', flight_number?: number | null, mission_name?: string | null, launch_year?: number | null, launch_date_unix?: number | null } | null> | null };
+export type LaunchListQuery = { __typename?: 'Query', launches?: Array<{ __typename?: 'Launch', flight_number?: number | null, mission_name?: string | null, launch_year?: number | null, launch_date_unix?: number | null } | null> | null };
+
+export type LaunchProfileQueryVariables = Exact<{
+  id: Scalars['String'];
+}>;
 
 
-export const GetLaunchListDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetLaunchList"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"launches"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"flight_number"}},{"kind":"Field","name":{"kind":"Name","value":"mission_name"}},{"kind":"Field","name":{"kind":"Name","value":"launch_year"}},{"kind":"Field","name":{"kind":"Name","value":"launch_date_unix"}}]}}]}}]} as unknown as DocumentNode<GetLaunchListQuery, GetLaunchListQueryVariables>;
+export type LaunchProfileQuery = { __typename?: 'Query', launch?: { __typename?: 'Launch', flight_number?: number | null, mission_name?: string | null, launch_year?: number | null, launch_success?: boolean | null, details?: string | null, launch_site?: { __typename?: 'LaunchSite', site_name?: string | null } | null, rocket?: { __typename?: 'LaunchRocket', rocket_name?: string | null, rocket_type?: string | null } | null, links?: { __typename?: 'LaunchLinks', flickr_images?: Array<string | null> | null } | null } | null };
+
+
+export const LaunchListDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"LaunchList"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"launches"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"flight_number"}},{"kind":"Field","name":{"kind":"Name","value":"mission_name"}},{"kind":"Field","name":{"kind":"Name","value":"launch_year"}},{"kind":"Field","name":{"kind":"Name","value":"launch_date_unix"}}]}}]}}]} as unknown as DocumentNode<LaunchListQuery, LaunchListQueryVariables>;
+export const LaunchProfileDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"LaunchProfile"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"launch"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"flight_number"}},{"kind":"Field","name":{"kind":"Name","value":"mission_name"}},{"kind":"Field","name":{"kind":"Name","value":"launch_year"}},{"kind":"Field","name":{"kind":"Name","value":"launch_success"}},{"kind":"Field","name":{"kind":"Name","value":"details"}},{"kind":"Field","name":{"kind":"Name","value":"launch_site"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"site_name"}}]}},{"kind":"Field","name":{"kind":"Name","value":"rocket"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"rocket_name"}},{"kind":"Field","name":{"kind":"Name","value":"rocket_type"}}]}},{"kind":"Field","name":{"kind":"Name","value":"links"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"flickr_images"}}]}}]}}]}}]} as unknown as DocumentNode<LaunchProfileQuery, LaunchProfileQueryVariables>;

@@ -1,12 +1,14 @@
 import { useQuery } from "@apollo/client";
+import { useEffect, useMemo, useState } from "react";
 
 // graphql queries
 import { QUERY_LAUNCH_LIST } from "./queries";
-import {
-  GetLaunchListQuery,
-  GetLaunchListQueryVariables,
-} from "../../gql/graphql";
-import { useMemo, useState } from "react";
+import { LaunchListQuery, LaunchListQueryVariables } from "../../gql/graphql";
+
+// sections
+import SkeletonList from "./SkeletonList";
+
+// ----------------------------------------------------------------------------
 
 type LaunchItem = {
   flight_number?: number | null;
@@ -21,14 +23,24 @@ type MapLaunchByYear = {
 
 type ArrayLaunchByYear = Array<[string, Array<LaunchItem | null>]>;
 
-export default function LaunchList() {
-  const { data, loading } = useQuery<
-    GetLaunchListQuery,
-    GetLaunchListQueryVariables
-  >(QUERY_LAUNCH_LIST);
+// ----------------------------------------------------------------------------
+
+export interface LaunchListProps {
+  onLaunchSelected?: (id: number) => void;
+  onHasLaunches?: () => void;
+}
+
+export default function LaunchList({
+  onLaunchSelected,
+  onHasLaunches,
+}: LaunchListProps) {
+  const { data, loading } = useQuery<LaunchListQuery, LaunchListQueryVariables>(
+    QUERY_LAUNCH_LIST
+  );
 
   const [search, setSearch] = useState("");
 
+  // Group launches by years
   const launchesByYear = useMemo((): ArrayLaunchByYear => {
     if (!data?.launches || loading) return [];
 
@@ -60,32 +72,27 @@ export default function LaunchList() {
     return Object.entries(mapByYear);
   }, [data, loading, search]);
 
-  if (loading) {
-    return (
-      <div className="h-full relative overflow-y-scroll px-8">
-        <div className="animate-pulse flex flex-col">
-          <div className="sticky top-0">
-            <div className="h-8 bg-slate-900" />
-            <div className="h-4 bg-slate-900 relative w-full">
-              <div className="rounded-md py-5 px-3 bg-slate-700" />
-            </div>
-            <div className="h-8 bg-gradient-to-b from-slate-900" />
-          </div>
+  // Default select first launch
+  useEffect(() => {
+    if (!onLaunchSelected) return;
+    if (!launchesByYear?.length) return;
 
-          <div className="mt-5">
-            <div className="bg-slate-700 h-4 rounded-sm mb-4" />
-            <div className="space-y-2">
-              <div className="border-l border-slate-700">
-                <div className="h-3 bg-slate-700 ml-4 rounded-sm" />
-              </div>
-              <div className="border-l border-slate-700">
-                <div className="h-3 bg-slate-700 ml-4 rounded-sm" />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
+    const firstYear = launchesByYear[0];
+    if (!firstYear[1].length) return;
+
+    if (firstYear[1][0]?.flight_number) {
+      onLaunchSelected(firstYear[1][0]?.flight_number);
+    }
+  }, [launchesByYear, onLaunchSelected]);
+
+  useEffect(() => {
+    if (!loading) {
+      onHasLaunches?.();
+    }
+  }, [loading, onHasLaunches]);
+
+  if (loading) {
+    return <SkeletonList />;
   }
 
   return (
@@ -121,9 +128,13 @@ export default function LaunchList() {
                 <h5 className="mb-3 font-semibold text-slate-200">{yearStr}</h5>
                 <ul className="space-y-2 border-l border-slate-800">
                   {listLaunch.map((launch) => {
+                    if (!launch?.flight_number) return null;
                     return (
                       <li
                         key={launch?.flight_number}
+                        onClick={() =>
+                          onLaunchSelected?.(launch?.flight_number!)
+                        }
                         className="border-l pl-4 border-transparent text-sm hover:border-slate-500 text-slate-400 hover:text-slate-300 hover:cursor-pointer"
                       >
                         {launch?.mission_name}
