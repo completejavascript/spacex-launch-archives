@@ -44,25 +44,27 @@ export default function LaunchProfile({
 
   return (
     <div className="h-full w-full relative overflow-y-auto p-8">
-      <div className="mb-2">
-        <span className="text-slate-200 font-semibold">
+      <div className="mb-2 font-semibold">
+        <span className="text-slate-700 dark:text-slate-200">
           Flight {data.launch?.flight_number}
         </span>
         {": "}
         {data.launch?.launch_success ? (
-          <span className="text-lime-400">Success</span>
+          <span className="text-lime-500">Success</span>
         ) : (
           <span className="text-rose-500">Failed</span>
         )}
       </div>
 
-      <h1 className="text-slate-100 font-bold text-2xl mb-6">
+      <h1 className="text-slate-800 dark:text-slate-100 font-bold text-2xl mb-6">
         {data.launch?.mission_name}
         {data.launch?.rocket &&
           ` (${data.launch.rocket.rocket_name} | ${data.launch.rocket.rocket_type})`}
       </h1>
 
-      <p className="mb-6">{data.launch?.details}</p>
+      <p className="mb-6 text-slate-700 dark:text-slate-200">
+        {data.launch?.details}
+      </p>
 
       {data.launch?.links?.flickr_images && (
         <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">

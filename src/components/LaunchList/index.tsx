@@ -100,10 +100,10 @@ export default function LaunchList({
   return (
     <div className="h-full relative overflow-y-auto px-8">
       <div className="sticky top-0">
-        <div className="h-8 bg-slate-900" />
-        <div className="bg-slate-900 relative pointer-events-auto w-full">
+        <div className="h-8 bg-white dark:bg-slate-900" />
+        <div className="bg-white dark:bg-slate-900 relative pointer-events-auto w-full">
           <input
-            className="w-full rounded-md py-2 pl-3 pr-6 bg-slate-800 hover:bg-slate-700 focus:outline outline-1 outline-slate-300"
+            className="w-full rounded-md py-2 pl-3 pr-6 bg-white dark:bg-slate-800 dark:hover:bg-slate-700 outline outline-1 dark:outline-0 dark:focus:outline-1 dark:outline-slate-300 outline-slate-300 focus:outline-slate-400"
             placeholder="Search name..."
             value={search}
             onChange={(event) => setSearch(event.target.value)}
@@ -117,7 +117,7 @@ export default function LaunchList({
             </span>
           )}
         </div>
-        <div className="h-8 bg-gradient-to-b from-slate-900" />
+        <div className="h-8 bg-gradient-to-b from-white dark:from-slate-900" />
       </div>
 
       <div>
@@ -127,15 +127,17 @@ export default function LaunchList({
           return (
             <ul key={yearStr}>
               <li className="mb-8">
-                <h5 className="mb-3 font-semibold text-slate-200">{yearStr}</h5>
-                <ul className="space-y-2 border-l border-slate-800">
+                <h5 className="mb-3 font-semibold text-slate-900 dark:text-slate-200">
+                  {yearStr}
+                </h5>
+                <ul className="space-y-2 border-l border-slate-200 dark:border-slate-800">
                   {listLaunch.map((launch) => {
                     if (!launch?.flight_number) return null;
 
                     const className =
                       launchId === launch?.flight_number
-                        ? "text-sky-400 hover:text-sky-400 border-sky-500 font-semibold"
-                        : "text-slate-400 hover:text-slate-300 hover:border-slate-500";
+                        ? "text-sky-500 hover:text-sky-500 border-sky-500 font-semibold"
+                        : "text-slate-700 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-300  border-transparent hover:border-slate-700 dark:hover:border-slate-500";
 
                     return (
                       <li
@@ -143,7 +145,7 @@ export default function LaunchList({
                         onClick={() =>
                           onLaunchSelected?.(launch?.flight_number!)
                         }
-                        className={`border-l pl-4 border-transparent text-sm cursor-pointer ${className}`}
+                        className={`border-l pl-4 text-sm cursor-pointer ${className}`}
                       >
                         {launch?.mission_name}
                       </li>
