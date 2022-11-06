@@ -73,6 +73,7 @@ export default function LaunchProfile({
               <img
                 src={image}
                 className="w-full rounded-md"
+                loading={"lazy"}
                 key={image}
                 alt={`${data.launch?.mission_name} ${i}`}
               />
