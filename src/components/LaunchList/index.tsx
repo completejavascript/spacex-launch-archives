@@ -1,5 +1,5 @@
 import { useQuery } from "@apollo/client";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 // graphql queries
 import { QUERY_LAUNCH_LIST } from "./queries";
@@ -49,6 +49,7 @@ export default function LaunchList({
 
   const [search, setSearch] = useState("");
   const debounceSearch = useDebounce(search, 200);
+  const hasSelectFirstTime = useRef(false);
 
   // Group launches by years
   const launchesByYear = useMemo((): ArrayLaunchByYear => {
@@ -86,13 +87,10 @@ export default function LaunchList({
 
   // Select launch randomly
   useEffect(() => {
+    if (hasSelectFirstTime.current) return;
     if (!onLaunchSelected) return;
-    if (!launchesByYear?.length) {
-      onLaunchSelected(null);
-      return;
-    }
 
-    if (!launchesByYear.length) {
+    if (!launchesByYear?.length) {
       onLaunchSelected(null);
       return;
     }
@@ -116,6 +114,8 @@ export default function LaunchList({
       `.flight-number-${launchData.flight_number}`,
       -150
     );
+
+    hasSelectFirstTime.current = true;
   }, [launchesByYear, onLaunchSelected]);
 
   useEffect(() => {
