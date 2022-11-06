@@ -134,7 +134,7 @@ export default function LaunchList({
         <div className="h-8 bg-white dark:bg-slate-900" />
         <div className="bg-white dark:bg-slate-900 relative pointer-events-auto w-full">
           <input
-            className="w-full rounded-md py-2 pl-3 pr-6 bg-white dark:bg-slate-800 dark:hover:bg-slate-700 outline outline-1 dark:outline-0 dark:focus:outline-1 dark:outline-slate-300 outline-slate-300 focus:outline-slate-400"
+            className="w-full rounded-md py-2 pl-3 pr-6 bg-white text-slate-700 dark:text-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 outline outline-1 dark:outline-0 dark:focus:outline-1 dark:outline-slate-300 outline-slate-300 focus:outline-slate-400"
             placeholder="Search name..."
             value={search}
             onChange={(event) => setSearch(event.target.value)}
