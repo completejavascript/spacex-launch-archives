@@ -6,10 +6,6 @@
   color-scheme: dark;
 } */
 
-:root {
-  --primary: rebeccapurple;
-}
-
 /* Firefox */
 * {
   scrollbar-width: thin;

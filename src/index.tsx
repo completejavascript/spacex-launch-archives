@@ -4,6 +4,7 @@ import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 
 import "./index.css";
 import App from "./App";
+import ThemeProvider from "./theme";
 import reportWebVitals from "./reportWebVitals";
 
 const apolloClient = new ApolloClient({
@@ -18,7 +19,9 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <ApolloProvider client={apolloClient}>
-      <App />
+      <ThemeProvider>
+        <App />
+      </ThemeProvider>
     </ApolloProvider>
   </React.StrictMode>
 );
