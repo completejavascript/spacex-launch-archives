@@ -10,12 +10,15 @@ export default function App() {
 
   return (
     <div className="h-screen bg-slate-900 text-slate-400 antialiased relative">
-      <h2 className="sticky top-0 z-40 text-xl py-4 px-8 border-b border-slate-300/10 bg-slate-900 text-slate-100 font-semibold">
-        🚀 SpaceX Launch Archives
-      </h2>
+      <div className="sticky top-0 z-40  py-4 px-8 border-b border-slate-300/10 bg-slate-900 flex gap-4">
+        <img src="/logo192.png" alt="" width={32} height={32} />
+        <h2 className="text-xl text-slate-100 font-semibold">
+          SpaceX Launch Archives
+        </h2>
+      </div>
 
       <div className="h-full w-full flex absolute top-0 pt-16">
-        <div className="w-80 border-r border-slate-300/10">
+        <div className="w-80">
           <LaunchList
             launchId={launchId}
             onLaunchSelected={setLaunchId}
