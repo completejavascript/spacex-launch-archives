@@ -7,6 +7,7 @@ import { LaunchListQuery, LaunchListQueryVariables } from "../../gql/graphql";
 
 // sections
 import SkeletonList from "./SkeletonList";
+import useDebounce from "../../hooks/useDebounce";
 
 // ----------------------------------------------------------------------------
 
@@ -27,7 +28,7 @@ type ArrayLaunchByYear = Array<[string, Array<LaunchItem | null>]>;
 
 export interface LaunchListProps {
   launchId: number | null;
-  onLaunchSelected?: (id: number) => void;
+  onLaunchSelected?: (id: number | null) => void;
   onHasLaunches?: () => void;
 }
 
@@ -41,6 +42,7 @@ export default function LaunchList({
   );
 
   const [search, setSearch] = useState("");
+  const debounceSearch = useDebounce(search, 200);
 
   // Group launches by years
   const launchesByYear = useMemo((): ArrayLaunchByYear => {
@@ -58,8 +60,10 @@ export default function LaunchList({
 
       // Implement search
       if (
-        search &&
-        !launch?.mission_name?.toLowerCase().includes(search.toLowerCase())
+        debounceSearch &&
+        !launch?.mission_name
+          ?.toLowerCase()
+          .includes(debounceSearch.toLowerCase())
       ) {
         return accum;
       }
@@ -72,15 +76,21 @@ export default function LaunchList({
     }, {});
 
     return Object.entries(mapByYear);
-  }, [data, loading, search]);
+  }, [data, loading, debounceSearch]);
 
   // Default select first launch
   useEffect(() => {
     if (!onLaunchSelected) return;
-    if (!launchesByYear?.length) return;
+    if (!launchesByYear?.length) {
+      onLaunchSelected(null);
+      return;
+    }
 
     const firstYear = launchesByYear[0];
-    if (!firstYear[1].length) return;
+    if (!firstYear[1].length) {
+      onLaunchSelected(null);
+      return;
+    }
 
     if (firstYear[1][0]?.flight_number) {
       onLaunchSelected(firstYear[1][0]?.flight_number);
