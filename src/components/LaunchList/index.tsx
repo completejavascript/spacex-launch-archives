@@ -5,9 +5,15 @@ import { useEffect, useMemo, useState } from "react";
 import { QUERY_LAUNCH_LIST } from "./queries";
 import { LaunchListQuery, LaunchListQueryVariables } from "../../gql/graphql";
 
+// hooks
+import useDebounce from "../../hooks/useDebounce";
+
+// utils
+import { randomIntBetween } from "../../utils/numberHelper";
+
 // sections
 import SkeletonList from "./SkeletonList";
-import useDebounce from "../../hooks/useDebounce";
+import { scrollIntoViewWithOffset } from "../../utils/domeHelper";
 
 // ----------------------------------------------------------------------------
 
@@ -78,7 +84,7 @@ export default function LaunchList({
     return Object.entries(mapByYear);
   }, [data, loading, debounceSearch]);
 
-  // Default select first launch
+  // Select launch randomly
   useEffect(() => {
     if (!onLaunchSelected) return;
     if (!launchesByYear?.length) {
@@ -86,15 +92,30 @@ export default function LaunchList({
       return;
     }
 
-    const firstYear = launchesByYear[0];
-    if (!firstYear[1].length) {
+    if (!launchesByYear.length) {
       onLaunchSelected(null);
       return;
     }
 
-    if (firstYear[1][0]?.flight_number) {
-      onLaunchSelected(firstYear[1][0]?.flight_number);
+    const yearData =
+      launchesByYear[randomIntBetween(0, launchesByYear.length)][1];
+    if (!yearData.length) {
+      onLaunchSelected(null);
+      return;
     }
+
+    const launchData = yearData[randomIntBetween(0, yearData.length)];
+    if (!launchData?.flight_number) {
+      onLaunchSelected(null);
+      return;
+    }
+
+    onLaunchSelected(launchData.flight_number);
+    scrollIntoViewWithOffset(
+      ".launch-list",
+      `.flight-number-${launchData.flight_number}`,
+      -150
+    );
   }, [launchesByYear, onLaunchSelected]);
 
   useEffect(() => {
@@ -108,7 +129,7 @@ export default function LaunchList({
   }
 
   return (
-    <div className="h-full relative overflow-y-auto px-8">
+    <div className="h-full relative overflow-y-auto px-8 launch-list">
       <div className="sticky top-0">
         <div className="h-8 bg-white dark:bg-slate-900" />
         <div className="bg-white dark:bg-slate-900 relative pointer-events-auto w-full">
@@ -155,7 +176,7 @@ export default function LaunchList({
                         onClick={() =>
                           onLaunchSelected?.(launch?.flight_number!)
                         }
-                        className={`border-l pl-4 text-sm cursor-pointer ${className}`}
+                        className={`border-l pl-4 text-sm cursor-pointer ${className} flight-number-${launch?.flight_number}`}
                       >
                         {launch?.mission_name}
                       </li>
