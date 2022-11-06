@@ -82,9 +82,17 @@ export default function App() {
       <div
         className={`${
           isNavBarOpen ? "translate-x-0" : "-translate-x-full"
-        } transform top-0 left-0 w-full bg-white fixed h-full ease-in-out transition-all duration-300 z-50`}
+        } fixed z-50 top-0 left-0 w-full h-full bg-white dark:bg-slate-900 transform ease-in-out transition-all duration-300`}
       >
-        <div className="flex items-center py-4 px-8">
+        <div className="absolute h-full w-full top-0 pt-16">
+          <LaunchList
+            launchId={launchId}
+            onLaunchSelected={handleLaunchSelected}
+            onHasLaunches={onHasLaunches}
+          />
+        </div>
+
+        <div className="absolute w-full flex items-center py-4 px-8 top-0">
           <div className="flex-1">
             <Brand />
           </div>
@@ -96,12 +104,6 @@ export default function App() {
             <IconClose />
           </button>
         </div>
-
-        <LaunchList
-          launchId={launchId}
-          onLaunchSelected={handleLaunchSelected}
-          onHasLaunches={onHasLaunches}
-        />
       </div>
     </>
   );
