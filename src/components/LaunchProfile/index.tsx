@@ -13,7 +13,7 @@ import SkeletonProfile from "./SkeletonProfile";
 // ----------------------------------------------------------------------------
 
 interface LaunchProfileProps {
-  launchId: number | null;
+  launchId: string | null;
   hasLaunches: boolean;
 }
 
@@ -46,7 +46,7 @@ export default function LaunchProfile({
     <div className="h-full w-full relative overflow-y-auto p-8">
       <div className="mb-2 font-semibold">
         <span className="text-slate-700 dark:text-slate-200">
-          Flight {data.launch?.flight_number}
+          Flight {data.launch?.id}
         </span>
         {": "}
         {data.launch?.launch_success ? (

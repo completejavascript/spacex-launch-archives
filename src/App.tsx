@@ -15,7 +15,7 @@ import { ThemeContext } from "./theme";
 export default function App() {
   const { mode, handleChangeMode } = useContext(ThemeContext);
   const [isNavBarOpen, setIsNavBarOpen] = useState(false);
-  const [launchId, setLaunchId] = useState<number | null>(null);
+  const [launchId, setLaunchId] = useState<string | null>(null);
   const [hasLaunches, setHasLaunches] = useState<boolean>(false);
   const onHasLaunches = useCallback(() => setHasLaunches(true), []);
 
@@ -25,7 +25,7 @@ export default function App() {
     else if (mode === "light") handleChangeMode("dark");
   }, [mode, handleChangeMode]);
 
-  const handleLaunchSelected = useCallback((id: number | null) => {
+  const handleLaunchSelected = useCallback((id: string | null) => {
     setLaunchId(id);
     setIsNavBarOpen(false);
   }, []);

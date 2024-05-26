@@ -18,14 +18,14 @@ import { scrollIntoViewWithOffset } from "../../utils/domeHelper";
 // ----------------------------------------------------------------------------
 
 type LaunchItem = {
-  flight_number?: number | null;
+  id?: string | null;
   mission_name?: string | null;
-  launch_year?: number | null;
+  launch_year?: string | null;
   launch_date_unix?: number | null;
 };
 
 type MapLaunchByYear = {
-  [key: number]: Array<LaunchItem | null>;
+  [key: string]: Array<LaunchItem | null>;
 };
 
 type ArrayLaunchByYear = Array<[string, Array<LaunchItem | null>]>;
@@ -33,8 +33,8 @@ type ArrayLaunchByYear = Array<[string, Array<LaunchItem | null>]>;
 // ----------------------------------------------------------------------------
 
 export interface LaunchListProps {
-  launchId: number | null;
-  onLaunchSelected?: (id: number | null) => void;
+  launchId: string | null;
+  onLaunchSelected?: (id: string | null) => void;
   onHasLaunches?: () => void;
 }
 
@@ -103,15 +103,15 @@ export default function LaunchList({
     }
 
     const launchData = yearData[randomIntBetween(0, yearData.length)];
-    if (!launchData?.flight_number) {
+    if (!launchData?.id) {
       onLaunchSelected(null);
       return;
     }
 
-    onLaunchSelected(launchData.flight_number);
+    onLaunchSelected(launchData.id);
     scrollIntoViewWithOffset(
       ".launch-list",
-      `.flight-number-${launchData.flight_number}`,
+      `.flight-number-${launchData.id}`,
       -150
     );
 
@@ -163,20 +163,20 @@ export default function LaunchList({
                 </h5>
                 <ul className="space-y-2 border-l border-slate-200 dark:border-slate-800">
                   {listLaunch.map((launch) => {
-                    if (!launch?.flight_number) return null;
+                    if (!launch?.id) return null;
 
                     const className =
-                      launchId === launch?.flight_number
+                      launchId === launch?.id
                         ? "text-sky-500 hover:text-sky-500 border-sky-500 font-semibold"
                         : "text-slate-700 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-300  border-transparent hover:border-slate-700 dark:hover:border-slate-500";
 
                     return (
                       <li
-                        key={launch?.flight_number}
+                        key={launch?.id}
                         onClick={() =>
-                          onLaunchSelected?.(launch?.flight_number!)
+                          onLaunchSelected?.(launch?.id!)
                         }
-                        className={`border-l pl-4 text-sm cursor-pointer ${className} flight-number-${launch?.flight_number}`}
+                        className={`border-l pl-4 text-sm cursor-pointer ${className} flight-number-${launch?.id}`}
                       >
                         {launch?.mission_name}
                       </li>

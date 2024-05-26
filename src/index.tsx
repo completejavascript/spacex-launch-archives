@@ -8,7 +8,7 @@ import ThemeProvider from "./theme";
 import reportWebVitals from "./reportWebVitals";
 
 const apolloClient = new ApolloClient({
-  uri: "https://spacexdata.herokuapp.com/graphql",
+  uri: "https://main--spacex-l4uc6p.apollographos.net/graphql",
   cache: new InMemoryCache(),
 });
 
